@@ -1,13 +1,13 @@
 package exercise;
 
-import java.util.Comparator;
+//import java.util.Comparator;
 import java.util.Map;
 import java.util.List;
-import java.time.LocalDate;
+//import java.time.LocalDate;
 import java.util.stream.Collectors;
 
 // BEGIN
-class Sorter{
+class Sorter {
     public static void main(String[] args) {
         List<Map<String, String>> users = List.of(
                 Map.of("name", "Vladimir Nikolaev", "birthday", "1990-12-27", "gender", "male"),
@@ -21,14 +21,15 @@ class Sorter{
 
         List<String> men = Sorter.takeOldestMans(users);
         System.out.println(men); // ["John Smith", "Andrey Petrov", "Vladimir Nikolaev"]
+//        System.out.println(LocalDate);
     }
+
     public static List<String> takeOldestMans(List<Map<String, String>> users){
         return users.stream()
                 .filter(man -> man.get("gender").equals("male"))
-//                .map ((man,birthday) -> man.get("name"), birthday.get("birthday"))
                 .map(man -> man.get("birthday") + " " + man.get("name"))
+//                .map ((man,birthday) -> man.get("name"), birthday.get("birthday"))
 //                .map(man -> man.get("birthday")
-//                .map(man -> man.get("name"))
                 .sorted((birthday1,birthday2) -> birthday1.compareTo(birthday2))
                 .collect(Collectors.toList());
     }
