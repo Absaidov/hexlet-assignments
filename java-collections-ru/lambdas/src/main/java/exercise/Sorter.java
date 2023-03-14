@@ -1,9 +1,9 @@
 package exercise;
 
-import java.util.Comparator;
+//import java.util.Comparator;
 import java.util.Map;
 import java.util.List;
-import java.time.LocalDate;
+//import java.time.LocalDate;
 import java.util.stream.Collectors;
 
 // BEGIN
@@ -25,15 +25,13 @@ class Sorter {
     }
 
     public static List<String> takeOldestMans(List<Map<String, String>> users) {
-            return users.stream()
-                    .filter(user -> user.get("gender") == "male")
-                    .sorted((user1, user2) -> {
-                        LocalDate date1 = LocalDate.parse(user1.get("birthday"));
-                        LocalDate date2 = LocalDate.parse(user2.get("birthday"));
-                        return date1.compareTo(date2);
-                    })
-                    .map(user -> user.get("name"))
-                    .collect(Collectors.toList());
-        }
+        return users.stream()
+                .filter(man -> man.get("gender").equals("male"))
+                .map(man -> man.get("birthday") + " " + man.get("name"))
+//                .map ((man,birthday) -> man.get("name"), birthday.get("birthday"))
+//                .map(man -> man.get("birthday")
+                .sorted((birthday1, birthday2) -> birthday1.compareTo(birthday2))
+                .collect(Collectors.toList());
+    }
 }
 // END
