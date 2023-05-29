@@ -6,7 +6,11 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
+import java.util.Map;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.Test;
 // BEGIN
 
 // END
@@ -24,6 +28,22 @@ class FileKVTest {
     }
 
     // BEGIN
-    
+    @Test
+    void fileKVTest() {
+        String path = "src/test/resources/file";
+        KeyValueStorage storage = new FileKV(path, Map.of("key", "value"));
+        assertThat(storage.get("key2", "default")).isEqualTo("default");
+        assertThat(storage.get("key", "value")).isEqualTo("value");
+
+        storage.set("key2", "value2");
+        storage.set("key", "value");
+
+        assertThat(storage.get("key2", "default")).isEqualTo("value2");
+        assertThat(storage.get("key", "default")).isEqualTo("value");
+
+        storage.unset("key");
+        assertThat(storage.get("key", "def")).isEqualTo("def");
+        assertThat(storage.toMap()).isEqualTo(Map.of("key2", "value2"));
+    }
     // END
 }
