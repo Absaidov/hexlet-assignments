@@ -4,9 +4,9 @@ import exercise.TcpConnection;
 
 // BEGIN
 public class Disconnected implements Connection{
-    private TcpConnection tcpConnection;
-    public Disconnected(TcpConnection tcpConnection){
-        this.tcpConnection = tcpConnection;
+    private TcpConnection connection;
+    public Disconnected(TcpConnection connection){
+        this.connection = connection;
     }
     @Override
     public String getCurrentState() {
@@ -14,9 +14,7 @@ public class Disconnected implements Connection{
     }
     @Override
     public void connect() {
-        TcpConnection conect = this.tcpConnection;
-        conect.setConnection(new Connected(conect));
-        System.out.println("connected");
+        connection.setState(new Connected(connection));
     }
     @Override
     public void disconnect() {
@@ -24,8 +22,8 @@ public class Disconnected implements Connection{
     }
 
     @Override
-    public void write(String string) {
-        System.out.println("Error " + string);
+    public void write(String data) {
+        System.out.println("Error! It is not posible write to closed connection");
     }
 }
 // END

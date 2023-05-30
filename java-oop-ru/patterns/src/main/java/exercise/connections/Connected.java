@@ -4,10 +4,10 @@ import exercise.TcpConnection;
 
 // BEGIN
 public class Connected implements Connection{
-    private TcpConnection tcpConnection;
+    private TcpConnection connection;
 
     public Connected(TcpConnection tcpConnection){
-        this.tcpConnection = tcpConnection;
+        this.connection = tcpConnection;
     }
     @Override
     public String getCurrentState(){
@@ -20,14 +20,14 @@ public class Connected implements Connection{
 
     @Override
     public void disconnect() {
-        TcpConnection conect = this.tcpConnection;
-        conect.setConnection(new Disconnected(conect));
+        TcpConnection conect = this.connection;
+        conect.setState(new Disconnected(conect));
         System.out.println("disconnected");
     }
 
     @Override
     public void write(String string) {
-        System.out.println(string + " was added.");
+        connection.addToBuffer(string);
     }
 }
 // END
