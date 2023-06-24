@@ -174,7 +174,9 @@ public class UsersServlet extends HttpServlet {
         }
 
         // BEGIN
-        
+        request.setAttribute("user", user); // сохраняем атрибут в запросе, чтобы передать данные в шаблон
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher("/edit.jsp");
+        requestDispatcher.forward(request, response);
         // END
     }
 
@@ -192,7 +194,21 @@ public class UsersServlet extends HttpServlet {
         }
 
         // BEGIN
-        
+        String firstName = request.getParameter("firstName");
+        String lastName = request.getParameter("lastName");
+        String email = request.getParameter("email");
+        user.replace("firstName", user.get("firstName"), firstName);
+        user.replace("lastName", user.get("lastName"), lastName);
+        user.replace("email", user.get("email"), email);
+        if (firstName.isEmpty() || lastName.isEmpty()) {
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher("/edit.jsp");
+            request.setAttribute("user", user);
+            request.setAttribute("error", "User can't be empty");
+            response.setStatus(422);
+            requestDispatcher.forward(request, response);
+            return;
+        }
+        response.sendRedirect("/users");    
         // END
     }
 
