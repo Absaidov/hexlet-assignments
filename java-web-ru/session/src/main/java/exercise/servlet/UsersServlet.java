@@ -241,7 +241,6 @@ public class UsersServlet extends HttpServlet {
             response.sendError(HttpServletResponse.SC_NOT_FOUND);
             return;
         }
-
         users.remove(user);
         session.setAttribute("flash", "Пользователь успешно изменён");
         response.sendRedirect("/users");
