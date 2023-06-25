@@ -24,25 +24,25 @@ public class Article extends Model {
 
     // BEGIN
     public Article(String title, String body, Category category) {
-        this.category = category;
         this.title = title;
         this.body = body;
+        this.category = category;
     }
 
     public long getId() {
-        return id;
+        return this.id;
     }
 
     public String getTitle() {
-        return title;
+        return this.title;
     }
 
     public String getBody() {
-        return body;
+        return this.body;
     }
 
     public Category getCategory() {
-        return category;
+        return this.category;
     }
     // END
 }
