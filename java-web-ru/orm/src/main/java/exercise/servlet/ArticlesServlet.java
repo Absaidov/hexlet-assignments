@@ -85,14 +85,15 @@ public class ArticlesServlet extends HttpServlet {
         int offset = (normalizedPage - 1) * articlesPerPage;
 
         // BEGIN
-        PagedList<Article> articleList = new QArticle()
+        PagedList<Article> pagedArticles = new QArticle()
                 .setFirstRow(offset)
                 .setMaxRows(articlesPerPage)
                 .orderBy()
                 .id.asc()
                 .findPagedList();
-        List<Article> articleList1 = articleList.getList();
-        request.setAttribute("articles", articleList1);
+
+        List<Article> articles = pagedArticles.getList();
+        request.setAttribute("articles", articles);
         // END
         request.setAttribute("page", normalizedPage);
         TemplateEngineUtil.render("articles/index.html", request, response);
@@ -108,6 +109,7 @@ public class ArticlesServlet extends HttpServlet {
         Article article = new QArticle()
                 .id.equalTo(id)
                 .findOne();
+
         request.setAttribute("article", article);
         // END
         TemplateEngineUtil.render("articles/show.html", request, response);
@@ -118,8 +120,8 @@ public class ArticlesServlet extends HttpServlet {
                     throws IOException, ServletException {
 
         // BEGIN
-        List<Category> categoryList = new QCategory().findList();
-        request.setAttribute("categories", categoryList);
+        List<Category> categories = new QCategory().findList();
+        request.setAttribute("categories", categories);
         // END
         TemplateEngineUtil.render("articles/new.html", request, response);
     }
@@ -134,11 +136,12 @@ public class ArticlesServlet extends HttpServlet {
         String categoryId = request.getParameter("categoryId");
 
         // BEGIN
-        ategory category = new QCategory()
-                .id.equalTo(Integer.parseInt(categoryId))
+        Category category = new QCategory()
+                .id.equalTo(Long.parseLong(categoryId))
                 .findOne();
-        Article newArticle = new Article(title, body, category);
-        newArticle.save();
+
+        Article article = new Article(title, body, category);
+        article.save();
         // END
 
         session.setAttribute("flash", "Статья успешно создана");
