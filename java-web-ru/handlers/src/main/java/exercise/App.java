@@ -19,7 +19,7 @@ public final class App {
 
 // Получаем список доменных имен
         List<String> domains = Data.getDomains();
-        app.get("/users", ctx -> ctx.json(phones));
+        app.get("/phones", ctx -> ctx.json(phones));
         app.get("/domains", ctx -> ctx.json(domains));
         return app;
         // END
