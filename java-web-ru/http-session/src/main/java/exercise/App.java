@@ -8,6 +8,7 @@ public final class App {
 
     private static final List<Map<String, String>> USERS = Data.getUsers();
 
+
     public static Javalin getApp() {
 
         var app = Javalin.create(config -> {
@@ -16,13 +17,12 @@ public final class App {
 
         // BEGIN
         app.get("/users", ctx -> {
-//            var users = ctx.queryParamAsClass("user", Integer.class).getOrDefault(0);
-//            var user = users.get(userNumber);
-//            ctx.result(user);
-            var users = ctx.json(USERS);
             var page = ctx.queryParamAsClass("page", Integer.class).getOrDefault(1);
+            var per = ctx.queryParamAsClass("per", Integer.class).getOrDefault(5);
+            var offset = (page - 1) * per;
+            List<Map<String, String>> sliceOfUsers = USERS.subList(offset, offset + per);
+            ctx.json(sliceOfUsers);
         });
-//        app.get("/users", ctx -> ctx.json(USERS));
         // END
 
         return app;
